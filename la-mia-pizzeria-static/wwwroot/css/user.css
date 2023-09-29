@@ -30,12 +30,16 @@ main {
 }
 
 .card:hover img{
-    opacity: 0.75;
+    opacity: 0.2;
 }
 
 .card:hover .card-body {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.card-title{
+    color: #000000;
 }
 
 .price{
@@ -44,5 +48,11 @@ main {
 
 .rate-icons {
     line-height: 30px;
-    color: #dfcf89;
+    color: #fffd1f;
 }
+
+.icon {
+    color: #dfcf89;
+    font-size: 20px;
+}
+

@@ -34,10 +34,14 @@
             {
                 <div class="col">
                     <div class="card">
+                       
                         <img class="mx-auto border-bottom" width="304" height="203" src="@pizza.Image" alt="@pizza.Name">
+                        
                         <div class="card-body description">
                             <div>
+                            <a class="text-decoration-none" href="@Url.Action("Details", "Home", new { id = pizza.Id })">
                                 <h5 class="card-title">@pizza.Name</h5>
+                            </a>
                                 <span class="price">
                                     <strong>@pizza.Price&euro;</strong>
                                 </span>

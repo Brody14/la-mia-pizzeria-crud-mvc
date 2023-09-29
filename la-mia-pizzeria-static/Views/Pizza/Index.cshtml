@@ -12,8 +12,6 @@
 {
     <h3>Non ci sono pizze da mostrare...</h3>
 }
-
-    <main>
         @* Una pizza avrà le seguenti informazioni :
         un nome
         una descrizione
@@ -30,7 +28,7 @@
             </div>
         </div>
         <div class="container mb-5">
-            <div class="row flex-wrap row-cols-lg-4 row-cols-md-2 gy-3">
+            <div class="row row-cols-lg-4 row-cols-md-2 gy-3">
 
                 @foreach(Pizza pizza in Model)
                 {
@@ -42,6 +40,9 @@
                                 <p class="card-text">@pizza.Description</p>
                                 <p>@pizza.Price&euro;</p>
                             </div>
+                        <a class="align-self-end p-2" href="@Url.Action("Details", "Pizza", new { id = pizza.Id })">
+                            <i class="icon fa-solid fa-circle-info"></i>
+                        </a>
                         </div>
                     </div>   
                 }
@@ -50,8 +51,5 @@
             </div>
         </div>
 
-
-
-    </main>
 
 

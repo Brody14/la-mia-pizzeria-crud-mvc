@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_LayoutAdmin";
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/css/admin.css" />
+}
+
+@model Pizza
+
+<div class="container p-5">
+
+    <div class="row p-3 align-items-center">
+
+        <div class="col-lg-8 col-md-12 p-3">
+            <img class="mx-auto img-fluid" src="@Model.Image" alt="@Model.Name">
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+            <h5 class="card-title lh-lg">@Model.Name</h5>
+
+            <ul class="list-unstyled">
+                <li>
+                    Descrizione: @Model.Description
+                </li>
+                <li>
+                    Prezzo: @Model.Price&euro;
+                </li>
+                <li>
+                    Valutazione: @Model.Rating/5
+                </li>
+            </ul>
+            
+
+        </div>
+    </div>
+
+</div>
+
+<div class="container pb-5 text-center">
+    <a href="@Url.Action("Index", "Pizza")">
+        <i class="icon fa-solid fa-left-long"> 
+            <p> Torna Indietro </p>
+        </i>
+    </a>
+</div>

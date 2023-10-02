@@ -22,6 +22,8 @@ namespace la_mia_pizzeria_static.Models
         [Range(0, 5)]
         public int Rating { get; set; }
 
+        public Pizza() { }
+
         public Pizza(string name, string description, string image, double price, int rating)
         {
             this.Name = name;

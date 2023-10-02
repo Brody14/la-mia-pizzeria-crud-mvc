@@ -1,12 +1,18 @@
 ﻿using la_mia_pizzeria_static.DataBase;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting.Internal;
+using System.IO;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace la_mia_pizzeria_static.Controllers
 {
     public class PizzaController : Controller
     {
+        
         public IActionResult Index()
         {
             using (PizzaContext db = new PizzaContext())
@@ -39,6 +45,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View("Create");
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Pizza newPizza)
@@ -48,13 +55,16 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Create", newPizza);
             }
 
+
             using(PizzaContext db = new PizzaContext())
             {
+
                 db.Pizzas.Add(newPizza);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
+
         }
     }
 

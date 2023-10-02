@@ -23,3 +23,8 @@
     background-color: var(--gold);
 }
 
+.btn-grobari:hover{
+    border: 1px solid var(--gold);
+    border-radius: 5px;
+}
+

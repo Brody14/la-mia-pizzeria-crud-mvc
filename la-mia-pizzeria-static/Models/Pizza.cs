@@ -7,15 +7,21 @@ namespace la_mia_pizzeria_static.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(50)]
+        [Required(ErrorMessage = "Il nome della pizza è obbligatorio")]
+        [MaxLength(50, ErrorMessage = "Il nome può avere un massimo di 50 caratteri")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "La descrizione è obbligatoria")]
         [Column(TypeName = "text")]
         public string Description { get; set; }
 
-        [MaxLength(500)]
+        [Required(ErrorMessage = "L'immagine è obbligatoria")]
+        [Url(ErrorMessage = "Devi inserire un URL valido")]
+        [MaxLength(500, ErrorMessage = "L'URL può avere un massimo di 500 caratteri")]
         public string Image {  get; set; }
 
+        [Required(ErrorMessage = "Il prezzo è obbligatorio")]
+        [Range(0, 999, ErrorMessage = "Il prezzo non può superare i 999 Euro")]
         [Column(TypeName = "decimal(5, 2)")]
         public double Price { get; set; }
 

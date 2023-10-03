@@ -32,10 +32,16 @@
             </ul>
             
             <hr />
-            <div class="d-flex p-2">
+            <div class="d-flex p-2 align-items-center">
                 <a class="p-2" href="@Url.Action("Edit", "Pizza", new { id = Model.Id })">
                     <i class="icon fa-solid fa-pencil"></i>
                 </a>
+                <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn">
+                        <i class="icon fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
             </div>
 
         </div>

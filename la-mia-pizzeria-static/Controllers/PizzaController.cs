@@ -30,7 +30,7 @@ namespace la_mia_pizzeria_static.Controllers
 
                     if (pizzaDetail == null)
                     {
-                        return NotFound($"La pizza che hai cercato non è stata trovata...");
+                        return NotFound("La pizza che hai cercato non è stata trovata...");
                     }
                     else
                     {
@@ -65,6 +65,53 @@ namespace la_mia_pizzeria_static.Controllers
                 return RedirectToAction("Index");
             }
 
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            using(PizzaContext db = new PizzaContext())
+            {
+                Pizza? pizzaToEdit = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+
+                if(pizzaToEdit == null)
+                {
+                    return NotFound("La pizza non è stata trovata...");
+                }else
+                {
+                    return View("Edit", pizzaToEdit);
+                }
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Pizza pizzaEdited)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", pizzaEdited);
+            }
+
+            using(PizzaContext db = new PizzaContext())
+            {
+                Pizza? pizzaToEdit = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+
+                if(pizzaToEdit != null)
+                {
+                    pizzaToEdit.Name = pizzaEdited.Name;
+                    pizzaToEdit.Description = pizzaEdited.Description;
+                    pizzaToEdit.Price = pizzaEdited.Price;
+                    pizzaToEdit.Image = pizzaEdited.Image;
+
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }else
+                {
+                    return NotFound("La pizza non è stata trovata...");
+                }
+            }
         }
     }
 

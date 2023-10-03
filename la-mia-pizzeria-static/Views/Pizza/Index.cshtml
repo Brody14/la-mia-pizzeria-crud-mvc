@@ -46,9 +46,14 @@
                                 <p class="card-text">@pizza.Description</p>
                                 <p>@pizza.Price&euro;</p>
                             </div>
-                        <a class="align-self-end p-2" href="@Url.Action("Details", "Pizza", new { id = pizza.Id })">
-                            <i class="icon fa-solid fa-circle-info"></i>
-                        </a>
+                            <div class="d-flex justify-content-end p-2">
+                                <a class="p-2" href="@Url.Action("Details", "Pizza", new { id = pizza.Id })">
+                                    <i class="icon fa-solid fa-circle-info"></i>
+                                </a>
+                                <a class="p-2" href="@Url.Action("Edit", "Pizza", new { id = pizza.Id })">
+                                    <i class="icon fa-solid fa-pencil"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>   
                 }

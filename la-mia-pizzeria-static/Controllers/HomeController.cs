@@ -1,4 +1,5 @@
-﻿using la_mia_pizzeria_static.DataBase;
+﻿using la_mia_pizzeria_static.CustomLoggers;
+using la_mia_pizzeria_static.DataBase;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,15 +8,18 @@ namespace la_mia_pizzeria_static.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private ICustomLogger _myLogger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICustomLogger logger)
         {
-            _logger = logger;
+            _myLogger = logger;
+
         }
 
         public IActionResult Index()
         {
+            _myLogger.WriteLog("Utente in home index");
+
             using (PizzaContext db = new PizzaContext())
             {
                 List<Pizza> pizzas = db.Pizzas.ToList<Pizza>();

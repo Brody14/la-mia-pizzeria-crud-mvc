@@ -84,27 +84,35 @@ namespace la_mia_pizzeria_static.Controllers
                 return NotFound("La pizza non è stata trovata...");
             }else
             {
-                return View("Edit", pizzaToEdit);
+                List<Category> categories = _myDatabase.Categories.ToList();
+
+                PizzaFormModel model = new PizzaFormModel { Pizza = pizzaToEdit, Categories = categories };
+
+                return View("Edit", model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Pizza pizzaEdited)
+        public IActionResult Edit(int id, PizzaFormModel data)
         {
             if (!ModelState.IsValid)
             {
-                return View("Edit", pizzaEdited);
+                List<Category> categories = _myDatabase.Categories.ToList();
+                data.Categories = categories;
+
+                return View("Edit", data);
             }
 
             Pizza? pizzaToEdit = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
 
             if(pizzaToEdit != null)
             {
-                pizzaToEdit.Name = pizzaEdited.Name;
-                pizzaToEdit.Description = pizzaEdited.Description;
-                pizzaToEdit.Price = pizzaEdited.Price;
-                pizzaToEdit.Image = pizzaEdited.Image;
+                pizzaToEdit.Name = data.Pizza.Name;
+                pizzaToEdit.Description = data.Pizza.Description;
+                pizzaToEdit.Price = data.Pizza.Price;
+                pizzaToEdit.Image = data.Pizza.Image;
+                pizzaToEdit.CategoryId = data.Pizza.CategoryId;
 
                 _myDatabase.SaveChanges();
 

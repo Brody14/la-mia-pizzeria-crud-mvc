@@ -33,7 +33,7 @@
         <div class="mb-3">
             <label class="form-label" for="Pizza.CategoryId">Categoria</label>
             <select asp-for="Pizza.CategoryId" class="form-select" aria-label="Default select example"> 
-             
+                <option selected>Scegli una categoria</option>
                 @foreach (Category cat in Model.Categories)
                 {
                     @if(Model.Pizza.CategoryId == cat.CategoryId)

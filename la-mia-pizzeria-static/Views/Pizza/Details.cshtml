@@ -27,6 +27,16 @@
                     Prezzo: @Model.Price&euro;
                 </li>
                 <li>
+                    Categoria:
+                    @if(Model.Category != null)
+                    {
+                        @Model.Category.Name
+
+                    }else{
+                        <span>Nessuna categoria</span>
+                    }
+                </li>
+                <li>
                     Valutazione: @Model.Rating/5
                 </li>
             </ul>

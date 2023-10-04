@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.ValidationAttributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography.X509Certificates;
 
 namespace la_mia_pizzeria_static.Models
 {
@@ -20,7 +21,7 @@ namespace la_mia_pizzeria_static.Models
         [Required(ErrorMessage = "L'immagine è obbligatoria")]
         [Url(ErrorMessage = "Devi inserire un URL valido")]
         [MaxLength(500, ErrorMessage = "L'URL può avere un massimo di 500 caratteri")]
-        public string Image {  get; set; }
+        public string Image { get; set; }
 
         [Required(ErrorMessage = "Il prezzo è obbligatorio")]
         [Range(0, 999, ErrorMessage = "Il prezzo non può superare i 999 Euro")]
@@ -29,6 +30,11 @@ namespace la_mia_pizzeria_static.Models
 
         [Range(0, 5)]
         public int Rating { get; set; }
+
+        //relazione 1 a n con le categorie
+
+        public int? CategoryId { get; set; }
+        public Category? Category {get; set;}
 
         public Pizza() { }
 

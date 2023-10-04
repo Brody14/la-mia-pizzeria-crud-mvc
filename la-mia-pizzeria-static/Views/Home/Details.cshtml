@@ -15,8 +15,23 @@
             <div class="col-lg-6 col-md-12 p-3">
                 <img class="mx-auto img-fluid" src="@Model.Image" alt="@Model.Name">
             </div>
+            
 
             <div class="col-lg-6 col-md-12">
+
+                <div class="mb-2">
+
+                    @if (Model.Category != null)
+                    {
+                        <span class="fs-6 text-secondary"> Categoria > @Model.Category.Name</span>
+
+                    }
+                    else
+                    {
+                    <span class="fs-6 text-secondary">Nessuna categoria</span>
+                    }
+                </div>
+
                 <h5 class="card-title lh-lg mb-3">@Model.Name</h5>
 
                 <div class="d-flex align-items-baseline">
@@ -41,7 +56,10 @@
                     </div>
 
                     <div class="col">
-                        <span> 5 Recensioni </span>
+                    @{
+                        Random ran = new Random();
+                    }
+                        <span> @ran.Next(0,10) Recensioni </span>
                     </div>
 
                     <div class="col">

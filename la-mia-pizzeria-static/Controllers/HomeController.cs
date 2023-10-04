@@ -2,6 +2,7 @@
 using la_mia_pizzeria_static.DataBase;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace la_mia_pizzeria_static.Controllers
@@ -32,7 +33,7 @@ namespace la_mia_pizzeria_static.Controllers
         {
             using (PizzaContext db = new PizzaContext())
             {
-                Pizza? pizzaDetail = db.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+                Pizza? pizzaDetail = db.Pizzas.Where(pizza => pizza.Id == id).Include(pizza => pizza.Category).FirstOrDefault();
 
                 if (pizzaDetail == null)
                 {

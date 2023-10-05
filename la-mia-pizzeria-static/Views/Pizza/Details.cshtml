@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-lg-4 col-md-12">
-            <h5 class="card-title lh-lg">@Model.Name</h5>
+            <h5 class="card-title lh-lg text-capitalize">@Model.Name</h5>
 
             <ul class="list-unstyled">
                 <li>
@@ -40,6 +40,24 @@
                     Valutazione: @Model.Rating/5
                 </li>
             </ul>
+
+            <hr />
+
+            <h6>Ingredienti:</h6>
+            @if (Model.Ingredients != null && Model.Ingredients.Count > 0)
+            {
+                <ul class="list-unstyled">
+                    @foreach (Ingredient ingredient in Model.Ingredients)
+                    {
+
+                        <li>- @ingredient.Name</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <span>Non ci sono ingredienti da mostrare</span>
+            }
             
             <hr />
             <div class="d-flex p-2 align-items-center">

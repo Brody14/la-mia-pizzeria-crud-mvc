@@ -41,3 +41,7 @@
 04-10-2023 15:15:14 LOG: Utente in pizza index
 04-10-2023 15:15:20 LOG: Utente in home index
 04-10-2023 15:18:06 LOG: Utente in home index
+05-10-2023 12:38:07 LOG: Utente in pizza index
+05-10-2023 12:39:04 LOG: Utente in pizza index
+05-10-2023 12:42:20 LOG: Utente in pizza index
+05-10-2023 12:42:44 LOG: Utente in pizza index

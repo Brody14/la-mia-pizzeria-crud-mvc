@@ -2,6 +2,7 @@
 using la_mia_pizzeria_static.DataBase;
 using la_mia_pizzeria_static.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -50,7 +51,18 @@ namespace la_mia_pizzeria_static.Controllers
         {
             List<Category> categories = _myDatabase.Categories.ToList();
 
-            PizzaFormModel model = new PizzaFormModel { Pizza = new Pizza(), Categories = categories };
+            //reperisco i dati per la select
+            List<SelectListItem> ingredientsSelectList = new List<SelectListItem>();
+            List<Ingredient> ingredients = _myDatabase.Ingredients.ToList();
+
+            //popoliamo la lista di ingredienti
+            foreach(Ingredient ingredient in ingredients)
+            {
+                ingredientsSelectList.Add(new SelectListItem { Text = ingredient.Name, Value = ingredient.Id.ToString()});
+            }
+
+            //aggiungiamo la lista al model
+            PizzaFormModel model = new PizzaFormModel { Pizza = new Pizza(), Categories = categories, Ingredients = ingredientsSelectList };
 
             return View("Create", model);
         }

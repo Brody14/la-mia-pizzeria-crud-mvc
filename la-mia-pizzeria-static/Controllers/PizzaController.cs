@@ -119,7 +119,7 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            Pizza? pizzaToEdit = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            Pizza? pizzaToEdit = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).Include(pizza => pizza.Ingredients).FirstOrDefault();
 
             if(pizzaToEdit == null)
             {
@@ -128,7 +128,22 @@ namespace la_mia_pizzeria_static.Controllers
             {
                 List<Category> categories = _myDatabase.Categories.ToList();
 
-                PizzaFormModel model = new PizzaFormModel { Pizza = pizzaToEdit, Categories = categories };
+                //reperisco i dati per la select
+                List<SelectListItem> ingredientsSelectList = new List<SelectListItem>();
+                List<Ingredient> ingredients = _myDatabase.Ingredients.ToList();
+
+                //popoliamo la lista di ingredienti
+                foreach (Ingredient ingredient in ingredients)
+                {
+                    ingredientsSelectList.Add(new SelectListItem 
+                        {   Text = ingredient.Name, 
+                            Value = ingredient.Id.ToString(),
+                            //aggiungo gli ingredenti già associati 
+                            Selected = pizzaToEdit.Ingredients.Any(associatedIngredient => associatedIngredient.Id == ingredient.Id)
+                        });
+                }
+
+                PizzaFormModel model = new PizzaFormModel { Pizza = pizzaToEdit, Categories = categories, Ingredients = ingredientsSelectList };
 
                 return View("Edit", model);
             }
@@ -143,18 +158,48 @@ namespace la_mia_pizzeria_static.Controllers
                 List<Category> categories = _myDatabase.Categories.ToList();
                 data.Categories = categories;
 
+                //reperisco i dati per la select
+                List<SelectListItem> ingredientsSelectList = new List<SelectListItem>();
+                List<Ingredient> ingredients = _myDatabase.Ingredients.ToList();
+
+                //popoliamo la lista di ingredienti
+                foreach (Ingredient ingredient in ingredients)
+                {
+                    ingredientsSelectList.Add(new SelectListItem { Text = ingredient.Name, Value = ingredient.Id.ToString() });
+                }
+
+                data.Ingredients = ingredientsSelectList;
+
                 return View("Edit", data);
             }
 
-            Pizza? pizzaToEdit = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).FirstOrDefault();
+            Pizza? pizzaToEdit = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).Include(pizza => pizza.Ingredients).FirstOrDefault();
 
             if(pizzaToEdit != null)
             {
+                //svuoto la lista esistente di ingredienti
+                pizzaToEdit.Ingredients.Clear();
+
                 pizzaToEdit.Name = data.Pizza.Name;
                 pizzaToEdit.Description = data.Pizza.Description;
                 pizzaToEdit.Price = data.Pizza.Price;
                 pizzaToEdit.Image = data.Pizza.Image;
                 pizzaToEdit.CategoryId = data.Pizza.CategoryId;
+
+                if (data.SelectedIngredientsId != null)
+                {
+                    foreach (string ingredientSelected in data.SelectedIngredientsId)
+                    {
+                        //converto le stringhe che arrivano dal form in interi
+                        int intIngredientSelectedId = int.Parse(ingredientSelected);
+                        Ingredient? ingredients = _myDatabase.Ingredients.Where(ingredient => ingredient.Id == intIngredientSelectedId).FirstOrDefault();
+
+                        if (ingredients != null)
+                        {
+                            pizzaToEdit.Ingredients.Add(ingredients);
+                        }
+                    }
+                }
 
                 _myDatabase.SaveChanges();
 

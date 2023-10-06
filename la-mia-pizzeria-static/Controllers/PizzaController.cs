@@ -1,6 +1,7 @@
 ﻿using la_mia_pizzeria_static.CustomLoggers;
 using la_mia_pizzeria_static.DataBase;
 using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -12,6 +13,7 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace la_mia_pizzeria_static.Controllers
 {
+    [Authorize(Roles = "USER,ADMIN")]
     public class PizzaController : Controller
     {
         private ICustomLogger _myLogger;
@@ -31,21 +33,22 @@ namespace la_mia_pizzeria_static.Controllers
             return View("Index", pizzas);
             
         }
-            public IActionResult Details(int id)
+        public IActionResult Details(int id)
+        {
+            Pizza? pizzaDetail = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).Include(pizza => pizza.Category).Include(pizza => pizza.Ingredients).FirstOrDefault();
+
+            if (pizzaDetail == null)
             {
-                Pizza? pizzaDetail = _myDatabase.Pizzas.Where(pizza => pizza.Id == id).Include(pizza => pizza.Category).Include(pizza => pizza.Ingredients).FirstOrDefault();
-
-                if (pizzaDetail == null)
-                {
-                    return NotFound("La pizza che hai cercato non è stata trovata...");
-                }
-                else
-                {
-                    return View("Details", pizzaDetail);
-                }
-               
+                return NotFound("La pizza che hai cercato non è stata trovata...");
             }
+            else
+            {
+                return View("Details", pizzaDetail);
+            }
+               
+        }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -67,7 +70,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View("Create", model);
         }
 
-
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PizzaFormModel data)
@@ -116,6 +119,7 @@ namespace la_mia_pizzeria_static.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -149,6 +153,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, PizzaFormModel data)
@@ -210,6 +215,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
